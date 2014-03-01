@@ -10,7 +10,7 @@ APICLOCK
 
 
 ========
-To do
+## To do
 
 - [] Validation BDD
 - [] Validation structure (tant prog que arbo)
@@ -19,7 +19,7 @@ To do
 
 
 ========
-Divers (idées, remind...)
+## Divers (idées, remind...)
 
 - [] Gestion vocoder
 - [] Google connect
