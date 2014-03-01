@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+  
+{% block corps %}
+
+    <br />
+    <font id="ur" size="20" face="Trebuchet MS, Verdana, Arial, sans-serif" color="#000000"></font>
+    <br />
+    
+    <form  style="text-align: center;" action="{{ url_for('reveil') }}" method=post >
+    artist : <input type=text name=artist>
+    <input type="submit" value="ajout" />
+    </form>
+    
+    Liste rep usb
+    <ul>
+        {% for morceaux in dir_key %}
+        <li>{{ morceaux }}</li>
+        {% endfor %}
+    </ul>
+
+
+
+{% endblock %}
+

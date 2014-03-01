@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block corps %}
+
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  
+  <font id="ur" size="20" face="Trebuchet MS, Verdana, Arial, sans-serif" color="#000000"></font>
+  <h2> {{ accueil }} </h2>
+
+  Afficher :
+  <ul>
+    <li> [ ] connexion OPEN ID </li>
+    <li> [ ] le nombre d'event a venir // modifier / supprimer </li>
+    <li> [ ] le nombre de taches restantes dues </li>
+    <li> [x] Message d'accueil</li>
+  </ul>
+  <br/>
+  <form style="text-align: center;" action="{{ url_for('login') }}" method=post>
+    <dl>
+      <dt>Username:
+      <dd><input type=text name=username>
+      <dt>Password:
+      <dd><input type=password name=password>
+      <dd><input type=submit value=Login>
+    </dl>
+  </form>
+{% endblock %}
+
+{% block footer %}{{ super() }}{% endblock %}

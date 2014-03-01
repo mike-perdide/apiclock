@@ -1,0 +1,11 @@
+auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+auto wlan0
+
+iface wlan0 inet dhcp
+wpa-ssid "nom_du_reseau"
+wpa-psk "mot_de_passe_wifi"

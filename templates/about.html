@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+  
+{% block corps %}
+    
+<h2>About</h2>
+<hr>
+
+<p> Projet de Radio / Reveil / Alarme (Python) sur le PI accessible / programmable depuis une Web App (Flask + Bootstrap)</p>
+<br/>
+
+<hr>
+<h2>Contact</h2>
+<hr>
+
+<form action="{{ url_for('about') }}" method=post>
+    <fieldset>
+        
+        {% for message in form.email.errors %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+       
+        {% for message in form.message.errors %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+<!--definir le style de "class=""flash" pour la page about(contact)-->
+
+        {% for field in form %}
+            
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+        
+            <div class="form.group">
+            {% if field.type == 'SubmitField' %}
+                <br /> {{ field(class="btn btn-primary") }} 
+            {% else %}
+                {{ field.label }} {{ field(class="form-control") }}
+            {% endif %}
+            </div>
+        {% endfor %}
+    </fieldset>  
+</form>
+
+{% endblock %}

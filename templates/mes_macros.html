@@ -1,0 +1,16 @@
+{% macro css_link(nom_fichiers_css, chemin='dist/css/', extension='css') %}
+    {% for fichier_css in nom_fichiers_css %}
+            <link href="{{ url_for('static', filename= chemin + fichier_css + '.' + extension) }}" rel="stylesheet" type="text/css" />
+    {% endfor %}
+{% endmacro %}
+ 
+<!--[if IE 7]>
+    <link href="{{ url_for('static', filename='css/font-awesome-ie7.min.css') }}" rel="stylesheet"  type="text/css">
+<![endif]-->
+ 
+{% macro js_link(nom_fichiers_js, chemin='dist/js/', extension='js') %}
+    {% for fichier_js in nom_fichiers_js %}
+<script type="text/javascript" src="{{ url_for('static', filename= chemin + fichier_js + '.' + extension) }}"></script>
+    {% endfor %}
+{% endmacro %}
+

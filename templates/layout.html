@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="keywords" content="website,keywords,here" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/bootstrap.min.css') }}">
+  
+  <script type="text/javascript" src="{{ url_for('static', filename='dist/js/jquery.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='dist/js/bootstrap.min.js') }}"></script>
+
+  <script type="text/javascript">
+
+  function playSong (song){
+    $('audio').attr('src', '/static/music/'+song);
+    //recupere l'argument audio de la page (balise) et lui ajoute les param de source (ajout du path)
+  }
+  
+  function playRadio (radio){
+    $('audio').attr('src', ''+radio);
+    //recupere l'argument audio de la page (balise) et lui ajoute les param de source (ajout du path)
+  }
+   
+    
+  function UR_Start() 
+  {
+    UR_Nu = new Date;
+    UR_Indhold = showFilled({{ heures }}) + ":" + showFilled({{ minutes }}) + ":" + showFilled({{ secondes }});
+    document.getElementById("ur").innerHTML = UR_Indhold;
+    setTimeout("UR_Start()",1000);
+  }
+  function showFilled(Value) 
+  {
+      return (Value > 9) ? "" + Value : "0" + Value;
+  }
+  </script>
+  
+  
+  <title>TITRE</title>
+</head>
+
+ <body onload="UR_Start(); "> <!-- on lance le script JS de l'horloge -->
+
+{% block navbar %}
+<!-- Navigation --></pre>
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      </button>
+      <a class="navbar-brand" href="#">APiClock</a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav">
+	<li class="active"><a href="{{ url_for('welcome') }}"><i class="icon-2x pull-left icon-home"></i> Accueil</a></li>
+	<li class="active"><a href="{{ url_for('about') }}"><i class="icon-2x pull-left icon-book"></i> About</a></li>
+	{% if session.logged_in %}
+	<li class="active"><a href="{{ url_for('logout') }}"><i class="icon-2x pull-left icon-bullhorn"></i> Log out</a></li>
+	{% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+ 
+
+<div class=metanav>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+</div>
+
+<div class="container">
+  <!-- Main content -->
+  <div class="row">
+    <div class="col-md-12">
+      {% block corps %}{% endblock %}</div>
+  </div>
+</div>
+
+<pre>
+{% block footer %}</pre>
+  <footer>
+    <div class="container">
+      <div class="row">
+	<pre>
+	<div class="col-md-8">content hereFooter content hereFooter content hereFooter content hereFooter content hereFooter content here</div>
+	</pre>
+	<div class="col-md-4">
+	Footer/licence content here</div>
+      </div>
+    </div>
+  </footer>
+{% endblock %}
+
+
+</body>
+</html>
