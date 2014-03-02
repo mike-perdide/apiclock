@@ -103,6 +103,7 @@ def show_media(type_media):
 
 
 def delete_media(idmedia):
+    """Suppression d'un enregistrement par l'argment idmedia"""
     conn = sqlite3.connect("mydatabase.db")
     cursor = conn.cursor()
     typem = (idmedia,)
@@ -112,6 +113,7 @@ def delete_media(idmedia):
 
 
 def add_media(typemedia, title, urlmedia):
+    """ajout d'un enregistrement"""
     conn = sqlite3.connect("mydatabase.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO media ("

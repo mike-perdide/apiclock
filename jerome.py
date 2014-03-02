@@ -180,11 +180,11 @@ def about():
 #   PAGES  PROTEGEES 
 # ----------------------------------------------------
 
-#@app.route('/reveil', methods=['GET', 'POST'])
-#def reveil():
+#@app.route('/protege', methods=['GET', 'POST'])
+#def protege():
 #    # on verifie qu'on est bien identifie et que le form a ete soumis
 #    if session.get('logged_in') and request.method == 'POST':
-#        return render_template('reveil.html')
+#        return render_template('protege.html')
 #    else:
 #        return render_template('login.html')
 

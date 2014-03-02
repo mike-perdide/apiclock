@@ -5,7 +5,7 @@ import sqlite3
 
 
 def play_MPD(path):
-    """   """
+    """ Joue MPD avec comme argument le chemin du fichier à jouer  """
     client = MPDClient()               # create client object
     client.timeout = 10                # network timeout in seconds (floats allowed), default: None
     client.idletimeout = None

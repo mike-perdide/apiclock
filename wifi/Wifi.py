@@ -12,3 +12,5 @@ dest = open("wifi.csv", "w")
 for lignes in source:
     dest.write(lignes)
 dest.close()
+
+# to do : interface de config wifi raspberry

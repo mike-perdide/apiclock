@@ -56,6 +56,7 @@ def ajout_podcast():
             u = urllib2.urlopen(output)
             f = open(file_name, 'wb')
             meta = u.info()
+            # on récupère la taille du fichier pour afficher une progress bar
             file_size = int(meta.getheaders("Content-Length")[0])
             print "Downloading: %s Bytes: %s" % (file_name, file_size)
             

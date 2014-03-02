@@ -12,7 +12,6 @@ def listdir(path):
     #fichier=[]
 
     for root, dirs, files in os.walk(path):
-
         for h in files:
             # on récupère l'indice du dernier signe "/"
             cheminset = root.rfind('/')
