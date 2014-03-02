@@ -2,15 +2,10 @@
 #   IMPORTS ET CONFIGURATION
 # ----------------------------------------------------
 
-from flask import Flask, render_template, flash, redirect, request, session, url_for, flash, abort
+from flask import Flask, render_template, redirect, request, session, url_for, flash, abort
 import time
-from time import ctime
 import os
-from datetime import date, datetime
-import sqlite3
-from mpd import MPDClient
-from crontab import CronTab
-import urllib
+from datetime import datetime
 from forms import LoginForm, ContactForm
 
 from liste_fichier import recup_liste, listdir
@@ -49,7 +44,6 @@ creation_bdb()
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
 
 # ----------------------------------------------------
 #   GESTION IDENTIFICATION 

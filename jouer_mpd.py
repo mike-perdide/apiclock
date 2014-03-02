@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from mpd import MPDClient
-import os.path
 import sqlite3
 
 
@@ -22,7 +21,7 @@ def play_MPD(path):
     
 def create_MPDplaylist():
 # cree un fichier radioplaylist dans le rep. (A CHANGER) /var/lib/mpd/playlists/ depuis la recup du fichier 
-    fichier = open("/usr/local/Cellar/mpd/0.17.5/playlists/radios.m3u", "w")
+    # fichier = open("/usr/local/Cellar/mpd/0.17.5/playlists/radios.m3u", "w")
     
     conn = sqlite3.connect("mydatabase.db")
     #conn.row_factory = sqlite3.Row

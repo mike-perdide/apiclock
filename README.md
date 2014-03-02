@@ -2,8 +2,16 @@ APICLOCK
 ========
 
 
+========
+## Dependencies
 
-
+- flask
+- python-mpd
+- wtforms
+- beautifulsoup4
+- python-crontab
+- sql3
+-
 
 
 
