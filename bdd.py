@@ -12,25 +12,27 @@ from jouer_mpd import create_MPDplaylist
 #   DATABASE : CREATION / INSERTION / AFFICHAGE
 #   http://www.blog.pythonlibrary.org/2012/07/18/python-a-simple-step-by-step-sqlite-tutorial/
 # ----------------------------------------------------
-def creation_bdb():    
+
+
+def creation_bdb():
     # verification de l'existence du fichier mydatabase et...
-    try :
-        open ("mydatabase.db")
-    
+    try:
+        open("mydatabase.db")
+
     #... si non --> creation (puis insertion exemple) / commit et close du fichier
     except IOError:
-        fichier = open ("mydatabase.db", "w")
-        conn = sqlite3.connect("mydatabase.db") # or use :memory: to put it in RAM
+        fichier = open("mydatabase.db", "w")
+        conn = sqlite3.connect("mydatabase.db")   # or use :memory: to put it in RAM
         cursor = conn.cursor()
         # creation des tables (à éffectuer une seule fois)
-        
+
         cursor.execute("""CREATE TABLE media
                             (idmedia integer primary key autoincrement ,
                             type varchar(50),
                             title varchar(50),
                             urlmedia text)
                          """)
-        
+
         cursor.execute("""CREATE TABLE user
                             (iduser integer primary key autoincrement ,
                             nameuser varchar(50),
@@ -43,7 +45,7 @@ def creation_bdb():
                             googlec varchar(50),
                             twitterc varchar(50))
                          """)
-        
+
         cursor.execute("""CREATE TABLE alarm
                             (idalarm integer primary key autoincrement ,
                             namealarm varchar(50),
@@ -56,7 +58,7 @@ def creation_bdb():
                             FOREIGN KEY(mediaid) REFERENCES media(idmedia),
                             FOREIGN KEY(userid) REFERENCES user(iduser))
                          """)
-    
+
         cursor.execute("""CREATE TABLE playlist
                             (idplaylist integer primary key autoincrement ,
                             nameplaylist varchar(50),
@@ -66,7 +68,17 @@ def creation_bdb():
                             FOREIGN KEY(userid2) REFERENCES user(iduser))
                          """)
         # doit on préciser un champ pour L'insertion de l'ID comme cle definit en auto increment ?
-        cursor.execute("INSERT INTO user VALUES(1,'fiot', 'jerome', 'j_fiot@hotmail.com', 'apiclock', 'admin', 'fr', '#blue', 'no', 'grominet')")
+        cursor.execute("INSERT INTO user VALUES("
+                       "1,"
+                       "'fiot', "
+                       "'jerome', "
+                       "'j_fiot@hotmail.com', "
+                       "'apiclock', "
+                       "'admin', "
+                       "'fr', "
+                       "'#blue', "
+                       "'no', "
+                       "'grominet')")
         # on met a jour tout ca sur la base
         conn.commit()
         fichier.close()
@@ -74,8 +86,8 @@ def creation_bdb():
         recup_liste()
         # on recupere le fichier radio, parse, insere dans la base
         create_MPDplaylist()
-    except :
-         print "Unexpected error:" , sys . exc_info ()[ 0 ]
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
 
 
 def show_media(type_media):
@@ -102,11 +114,18 @@ def delete_media(idmedia):
 def add_media(typemedia, title, urlmedia):
     conn = sqlite3.connect("mydatabase.db")
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO media (idmedia, type, title, urlmedia) VALUES (?,?,?,?)",  ('10', typemedia, title, urlmedia))
+    cursor.execute("INSERT INTO media ("
+                   "idmedia, "
+                   "type, "
+                   "title, "
+                   "urlmedia) "
+                   "VALUES (?,?,?,?)",
+                   ('10', typemedia, title, urlmedia))
     conn.commit()
 
 
 def update_media(idmedia, typemedia, title, urlmedia):
+    """mise à jour de la table media avec les arguments correspond. aux lignes"""
     conn = sqlite3.connect("mydatabase.db")
     cursor = conn.cursor()
     liste_arguments = ["typemedia", "title", "urlmedia"]

@@ -34,10 +34,11 @@ playlists = soup.find_all("guid", limit=1)
 # le lien de l'img est dans la balise <url> sous-balise d'<image> sous-balise de <channel>
 # img_podcast = soup.find_all("url", limit=2)
 
+
 def ajout_podcast():
-    i=0
+    i = 0
     
-    while i<len(playlists):
+    while i < len(playlists):
         # on récupère le 1er contenu de l'élément
         lien = playlists[i].contents
         # on supprime les crochets et autres
@@ -76,10 +77,11 @@ def ajout_podcast():
             # on insert le tout dans la bdd
             conn = sqlite3.connect("mydatabase.db")
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO media (type, title, urlmedia) VALUES (?, ?, ?)", ('podcast', file_name, file_url))
+            cursor.execute("INSERT INTO media (type, title, urlmedia) VALUES (?, ?, ?)",
+                           ('podcast', file_name, file_url))
             conn.commit()
             
-        else :
+        else:
             print "Fichier déjà téléchargé"
     
-        i+=1
+        i += 1

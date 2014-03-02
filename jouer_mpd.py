@@ -9,7 +9,7 @@ def play_MPD(path):
     """   """
     client = MPDClient()               # create client object
     client.timeout = 10                # network timeout in seconds (floats allowed), default: None
-    client.idletimeout = None          # timeout for fetching the result of the idle command is handled seperately, default: None
+    client.idletimeout = None
     client.connect("localhost", 6600)  # connect to localhost:6600
 
     MPDClient.add(path)
@@ -35,5 +35,6 @@ def create_MPDplaylist():
     #    fichier.write(row[0])
     #fichier.close()
     
-# afficher les infos d'un stream mp3 http://stackoverflow.com/questions/6613587/reading-mp3-metadata-from-a-radio-stream-in-python
+# afficher les infos d'un stream
+# mp3 http://stackoverflow.com/questions/6613587/reading-mp3-metadata-from-a-radio-stream-in-python
 # jouerMPD("/Users/fiot/Documents/GIT/MUSIC_PLAYER/app/static/uploads/test")

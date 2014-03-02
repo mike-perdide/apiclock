@@ -4,6 +4,7 @@ import os.path
 import sqlite3
 import urllib
 
+
 def listdir(path):
 # lister l'arbo d'un rep (rep / ss rep et fichier de tout le monde)
 # remplacer DOSSIER, FICHIER par des class CSS
@@ -28,7 +29,9 @@ def listdir(path):
 # ----------------------------------------------------
 #   RECUPERATION LISTE RADIO DEPUIS FICHIER SUR gromfiot.free.fr
 # ----------------------------------------------------
-def recup_liste(): 
+
+
+def recup_liste():
     """ recup du fichier "radios.txt" sur gromfiot.free.fr puis formatage pour l'inserer dans la base"""
     #recuperation
     sock = urllib.urlopen("http://gromfiot.free.fr/radios.txt")
@@ -37,21 +40,18 @@ def recup_liste():
     radios = []
 
     for i in sock:
-    # alors pourquoi je dois faire un fichier txt en sautant une ligne sur deux...?
-	# radio1 = sock.readline().rstrip('\n')
+        # alors pourquoi je dois faire un fichier txt en sautant une ligne sur deux...?
+        # radio1 = sock.readline().rstrip('\n')
         ligne = str(i)
-	radio = tuple(ligne.split(','))
-	radios.append(radio)
+        radio = tuple(ligne.split(','))
+        radios.append(radio)
     
     #insertion
-    conn = sqlite3.connect("mydatabase.db") # or use :memory: to put it in RAM
+    conn = sqlite3.connect("mydatabase.db")   # or use :memory: to put it in RAM
     cursor = conn.cursor()
     cursor.executemany("INSERT INTO media VALUES (NOT NULL,?,?,?)", radios)
     conn.commit()
     conn.close()
 
-
-
 if __name__ == '__main__':
     listdir("/Users/fiot/Documents/GIT/MUSIC_PLAYER/app/static/uploads")
-    

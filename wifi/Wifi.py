@@ -5,7 +5,7 @@ source = open("/etc/network/interfaces", "r")
 source = source.readlines()
 
 chaine = ""
-result=chaine.replace("supplicant.conf", "nmotdepasserecrit")
+result = chaine.replace("supplicant.conf", "nmotdepasserecrit")
 
 # on l ecrit dans test.csv
 dest = open("wifi.csv", "w")
