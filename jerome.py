@@ -69,59 +69,59 @@ def welcome():
         # insertion_crontab(2)
         test = 'base'
 
-    # verif de la presence de param pour modif OU ajout OU suppression RADIO
-    if request.method == 'POST':
-        # Fonction Suppression (on recupere l'ID passe dans le hidden form et on execute delete_media)
-        if request.form['supprimer_radio'] == 'Supprimer':
-            test = 'supprimer'
-            i = request.form['id_media_supprimer']
-            # si un param est passe par le champ "titre du podcast" depuis "Ajouter un podcast"
-            delete_media(i)
-            # accents passent pas ??
-            flash('Radio supprime')
+        # verif de la presence de param pour modif OU ajout OU suppression RADIO
+        if request.method == 'POST':
+            # Fonction Suppression (on recupere l'ID passe dans le hidden form et on execute delete_media)
+            if request.form['supprimer_radio'] == 'Supprimer':
+                test = 'supprimer'
+                i = request.form['id_media_supprimer']
+                # si un param est passe par le champ "titre du podcast" depuis "Ajouter un podcast"
+                delete_media(i)
+                # accents passent pas ??
+                flash('Radio supprime')
 
-        # Fonction Jouer
-        # MARCHE PAS ??
-        elif request.form['jouer_radio'] == 'Jouer':
-            i = request.form['id_media']
-            path = request.form['url_media']
-            play_MPD(path)
-            test = 'jouer'
-            flash('i')
+            # Fonction Jouer
+            # MARCHE PAS ??
+            elif request.form['jouer_radio'] == 'Jouer':
+                i = request.form['id_media']
+                path = request.form['url_media']
+                play_MPD(path)
+                test = 'jouer'
+                flash('i')
 
-        # Fonction Ajout (si le champ hidden ajouter_radio n'est pas vide on attribue les valeurs du formulaire
-        # aux variables > arguments pour la fonction add_media()
-        # MARCHE PAS ??
-        elif request.form['ajouter_radio'] == 'Ajouter':
-            test = 'ajouter'
-            typemedia = 'radio'
-            title = request.form['titremedia']
-            urlmedia = request.form['urlmedia']
-            add_media(typemedia, title, urlmedia)
-            flash('Radio ajoutee')
+            # Fonction Ajout (si le champ hidden ajouter_radio n'est pas vide on attribue les valeurs du formulaire
+            # aux variables > arguments pour la fonction add_media()
+            # MARCHE PAS ??
+            elif request.form['ajouter_radio'] == 'Ajouter':
+                test = 'ajouter'
+                typemedia = 'radio'
+                title = request.form['titremedia']
+                urlmedia = request.form['urlmedia']
+                add_media(typemedia, title, urlmedia)
+                flash('Radio ajoutee')
 
-        # Fonction modification (si le champ hidden ajoutradio n'est pas vide on attribue
-        # les valeurs du formulaire aux variables > arguments pour la fonction update_media()
-        # MARCHE PAS ??
-        elif request.form['modifier_radio'] == 'Modifier':
-            test = 'modifier'
-            i = request.form['id_media_modif']
-            typemedia = 'radio'
-            title = request.form['modif_titre']
-            urlmedia = request.form['modif_url']
-            update_media(i, typemedia, title, urlmedia)
-            flash('Radio modifiee')
-    else:
-        test = 'rien'
-        return render_template('welcome.html',
-                               radio=radio,
-                               podcast=podcast,
-                               test=test,
-                               # music = music,
-                               # testcron = testcron,
-                               heures=recup_heure().strftime('%H'),
-                               minutes=recup_heure().strftime('%M'),
-                               secondes=recup_heure().strftime('%S'))
+            # Fonction modification (si le champ hidden ajoutradio n'est pas vide on attribue
+            # les valeurs du formulaire aux variables > arguments pour la fonction update_media()
+            # MARCHE PAS ??
+            elif request.form['modifier_radio'] == 'Modifier':
+                test = 'modifier'
+                i = request.form['id_media_modif']
+                typemedia = 'radio'
+                title = request.form['modif_titre']
+                urlmedia = request.form['modif_url']
+                update_media(i, typemedia, title, urlmedia)
+                flash('Radio modifiee')
+        else:
+            test = 'rien'
+            return render_template('welcome.html',
+                                   radio=radio,
+                                   podcast=podcast,
+                                   test=test,
+                                   # music = music,
+                                   # testcron = testcron,
+                                   heures=recup_heure().strftime('%H'),
+                                   minutes=recup_heure().strftime('%M'),
+                                   secondes=recup_heure().strftime('%S'))
 
     else:
         return render_template('login.html',
