@@ -60,6 +60,7 @@ app.config.from_object(__name__)
 def welcome():
     form = LoginForm()
     """Si corectement identifie on renvoie vers welcome.html sinon vers login.html"""
+
     if session.get('logged_in'):
         # on recupere la liste ds radios ()show_media) et des podcast (show_podcast)
         radio = sessiont.query(Media).filter(Media.type == 'radio').all()
