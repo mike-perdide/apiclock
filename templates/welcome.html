@@ -9,32 +9,30 @@
     <hr>
         <h3>Radio</h3>
     <ul>
-        <li> Afficher les radios </li>
         <ul>
             {% for member in radio %}
             <form action="{{ url_for('welcome') }}" method=post>
-                <li> ID : {{ member[0] }} // TYPE : {{ member[1] }} // TITLE : {{ member[2] }} // URLMEDIA : {{ member[3] }}
+                <li> TYPE : {{ member.type }} // TITLE : {{ member.nom }}
                 <!--  on met l'id en champ cache pour recup pour suppression  -->
-                <input type="hidden" name="id_media_supprimer" value="{{ member[0] }}">
-                <input type="hidden" name="url_media" value="{{ member[3] }}">
+                <input type="hidden" name="id_media_supprimer" value="{{ member.id }}">
                 <input type=submit value="Jouer" name=jouer_radio>
                 <input type=submit value="Supprimer" name=supprimer_radio >
                 
                 <br/></form>
             
             <form action="{{ url_for('welcome') }}" method=post>
-                Modifier TITLE : <input type=text name="modif_titre" value="{{ member[2] }}">
-                Modifier URLMEDIA : <input type=text name="modif_url" value="{{ member[3] }}">
-                <input type="hidden" name="id_media_modif" value="{{ member[0] }}">
+                Modifier TITLE : <input type=text name="modif_titre" value="{{ member.nom }}">
+                Modifier URLMEDIA : <input type=text name="modif_url" value="{{ member.url }}">
+                <input type="hidden" name="id_media_modif" value="{{ member.id }}">
                 <input type=submit value="ok" name="modifier_radio"> </li>
             </form>
             
             {% endfor %}
-        </ul>
+        </ul><br/>
         <li> Ajouter radios </li>
         <ul>
             <form action="{{ url_for('welcome') }}" method=post>
-                <li> Titre de la radio : <input type=text name="titremedia" value="">
+                <li> Nom de la radio : <input type=text name="titremedia" value="">
                 URL du stream (.mp3) : <input type=text name="urlmedia" value="">
                 <input type=submit value="Ajouter" name="ajouter_radio"></li>
             </form>

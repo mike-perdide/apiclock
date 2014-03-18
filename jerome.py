@@ -9,7 +9,10 @@ from datetime import datetime
 from forms import LoginForm, ContactForm
 
 from liste_fichier import recup_liste, listdir
-from bdd import creation_bdb, show_media, delete_media, add_media, update_media
+# from bdd import creation_bdb, show_media, delete_media, add_media, update_media, \
+from bdd import Reveil, User, Media, Playlist, sessiont
+
+
 from jouer_mpd import create_MPDplaylist, play_MPD
 from podcast import ajout_podcast
 
@@ -23,6 +26,8 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 SECRET_KEY = 'clef de securite en carton'
 
+RECAPTCHA_PUBLIC_KEY = '6Lfol9cSAAAAADAkodaYl9wvQCwBMr3qGR_PPHcw'
+
 # ----------------------------------------------------
 #   FONCTIONS
 # ----------------------------------------------------
@@ -35,7 +40,7 @@ def recup_heure():
     return d
 
 
-creation_bdb()
+# creation_bdb()
 
 
 # ----------------------------------------------------
@@ -51,85 +56,61 @@ app.config.from_object(__name__)
 
 @app.route('/index', methods=['GET', 'POST'])
 @app.route('/', methods=['GET', 'POST'])
+
 def welcome():
     form = LoginForm()
     """Si corectement identifie on renvoie vers welcome.html sinon vers login.html"""
     if session.get('logged_in'):
         # on recupere la liste ds radios ()show_media) et des podcast (show_podcast)
-        # pour les afficher avec un bouton pour les jouer radio = show_media()
-        radio = show_media('radio')
-        podcast = show_media('podcast')
+        radio = sessiont.query(Media).filter(Media.type == 'radio').all()
 
-        # On affiche le repertoire /static/music pour afficher + btn pour les jouer
-        # lecteur ne marche pas avec un rep monte en reseau dans /home/pi/music-debian/ .. pourquoi ??
-        # music = os.listdir('../music-debian/AIR/moon safari')
-        #music = os.listdir('../static/music')
-
-        # on insere un cron job avec python-crontab
-        # insertion_crontab(2)
-        test = 'base'
-
-        # verif de la presence de param pour modif OU ajout OU suppression RADIO
         if request.method == 'POST':
-            # Fonction Suppression (on recupere l'ID passe dans le hidden form et on execute delete_media)
-            if request.form['supprimer_radio'] == 'Supprimer':
-                test = 'supprimer'
-                i = request.form['id_media_supprimer']
-                # si un param est passe par le champ "titre du podcast" depuis "Ajouter un podcast"
-                delete_media(i)
-                # accents passent pas ??
-                flash('Radio supprime')
 
-            # Fonction Jouer
-            # MARCHE PAS ??
-            elif request.form['jouer_radio'] == 'Jouer':
-                i = request.form['id_media']
+            # SUPPRESSION
+            if request.form['supprimer_radio']:
+                idsupprimer = request.form['id_media_supprimer']
+                sessiont.query(Media).filter_by(id = idsupprimer).delete()
+                sessiont.commit()
+
+            # JOUER
+            elif request.form['jouer_radio']:
                 path = request.form['url_media']
                 play_MPD(path)
-                test = 'jouer'
-                flash('i')
 
-            # Fonction Ajout (si le champ hidden ajouter_radio n'est pas vide on attribue les valeurs du formulaire
-            # aux variables > arguments pour la fonction add_media()
-            # MARCHE PAS ??
-            elif request.form['ajouter_radio'] == 'Ajouter':
-                test = 'ajouter'
-                typemedia = 'radio'
-                title = request.form['titremedia']
+            # MODIFICATION
+            elif request.form['modifier_radio']:
+                idmodif = request.form['id_media_modif']
+                modift = request.form['modif_titre']
+                modifu = request.form['modif_url']
+                radiot = sessiont.query(Media).filter(id == idmodif).first()
+                radiot.nom = modift
+                radiot.url = modifu
+                sessiont.add(radiot)
+                sessiont.commit()
+
+            # AJOUTER RADIO
+            elif request.form['ajouter_radio']:
+                nom = request.form['titremedia']
                 urlmedia = request.form['urlmedia']
-                add_media(typemedia, title, urlmedia)
-                flash('Radio ajoutee')
 
-            # Fonction modification (si le champ hidden ajoutradio n'est pas vide on attribue
-            # les valeurs du formulaire aux variables > arguments pour la fonction update_media()
-            # MARCHE PAS ??
-            elif request.form['modifier_radio'] == 'Modifier':
-                test = 'modifier'
-                i = request.form['id_media_modif']
-                typemedia = 'radio'
-                title = request.form['modif_titre']
-                urlmedia = request.form['modif_url']
-                update_media(i, typemedia, title, urlmedia)
-                flash('Radio modifiee')
+                radiot = Media(nom=nom, type='radio', url=urlmedia)
+                sessiont.add(radiot)
+                sessiont.commit()
+
         else:
-            test = 'rien'
             return render_template('welcome.html',
-                                   radio=radio,
-                                   podcast=podcast,
-                                   test=test,
-                                   # music = music,
-                                   # testcron = testcron,
-                                   heures=recup_heure().strftime('%H'),
-                                   minutes=recup_heure().strftime('%M'),
-                                   secondes=recup_heure().strftime('%S'))
-
-    else:
-        return render_template('login.html',
-                               form=form,
+                               radio=radio,
                                heures=recup_heure().strftime('%H'),
                                minutes=recup_heure().strftime('%M'),
                                secondes=recup_heure().strftime('%S'))
 
+    else:
+        return render_template('welcome.html',
+                               radio=radio,
+                               form=form,
+                               heures=recup_heure().strftime('%H'),
+                               minutes=recup_heure().strftime('%M'),
+                               secondes=recup_heure().strftime('%S'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
