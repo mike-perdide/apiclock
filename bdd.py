@@ -169,6 +169,10 @@ class Reveil(Base):
         self.heurefin = heurefin
         self.volume = volume
 
+    def ajoutreveil(self):
+        """Ajout d'une programmation d'alarme"""
+
+
 
 class Media(Base):
     """type de media Podcast, musique, radio..."""

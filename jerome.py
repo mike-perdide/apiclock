@@ -5,10 +5,11 @@
 from flask import Flask, render_template, redirect, request, session, url_for, flash, abort
 import time
 import os
+from flask_bootstrap import Bootstrap
 from datetime import datetime
-from forms import LoginForm, ContactForm
+from forms import LoginForm, ContactForm, Mediaform
 
-from liste_fichier import recup_liste, listdir
+# from liste_fichier import recup_liste, listdir
 # from bdd import creation_bdb, show_media, delete_media, add_media, update_media, \
 from bdd import Reveil, User, Media, Playlist, sessiont
 
@@ -49,57 +50,59 @@ def recup_heure():
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+Bootstrap(app)
 
 # ----------------------------------------------------
 #   GESTION IDENTIFICATION 
 # ----------------------------------------------------
 
-@app.route('/index', methods=['GET', 'POST'])
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=('GET', 'POST'))
+@app.route('/', methods=('GET', 'POST'))
 
 def welcome():
-    form = LoginForm()
     """Si corectement identifie on renvoie vers welcome.html sinon vers login.html"""
+    form = Mediaform()
+    # on recupere la liste ds medai de type "radio"
+    radio = sessiont.query(Media).filter(Media.type == 'radio').all()
 
     if session.get('logged_in'):
-        # on recupere la liste ds radios ()show_media) et des podcast (show_podcast)
-        radio = sessiont.query(Media).filter(Media.type == 'radio').all()
 
         if request.method == 'POST':
 
             # SUPPRESSION
             if request.form['supprimer_radio']:
                 idsupprimer = request.form['id_media_supprimer']
-                sessiont.query(Media).filter_by(id = idsupprimer).delete()
+                sessiont.query(Media).filter_by(id=idsupprimer).delete()
                 sessiont.commit()
 
             # JOUER
             elif request.form['jouer_radio']:
-                path = request.form['url_media']
+                radiojouer = sessionj.query(Media).filter_by(id=idmedia).first()
+                path = radiojouer.url
                 play_MPD(path)
 
             # MODIFICATION
             elif request.form['modifier_radio']:
-                idmodif = request.form['id_media_modif']
-                modift = request.form['modif_titre']
-                modifu = request.form['modif_url']
-                radiot = sessiont.query(Media).filter(id == idmodif).first()
-                radiot.nom = modift
-                radiot.url = modifu
-                sessiont.add(radiot)
+                idmodif = request.form['idmedia']
+                modift = request.form['nommedia']
+                typemodif = request.form['typemedia']
+                test = idmodif
+                sessiont.query(Media).filter(Media.id == idmodif).update({'nom': modift}, {'type': typemodif})
                 sessiont.commit()
 
             # AJOUTER RADIO
             elif request.form['ajouter_radio']:
-                nom = request.form['titremedia']
+                nom = request.form['nommedia']
                 urlmedia = request.form['urlmedia']
-
+                test = urlmedia
                 radiot = Media(nom=nom, type='radio', url=urlmedia)
                 sessiont.add(radiot)
                 sessiont.commit()
 
         else:
             return render_template('welcome.html',
+                               form=form,
+                               test=test,
                                radio=radio,
                                heures=recup_heure().strftime('%H'),
                                minutes=recup_heure().strftime('%M'),
@@ -107,13 +110,13 @@ def welcome():
 
     else:
         return render_template('welcome.html',
-                               radio=radio,
                                form=form,
+                               radio=radio,
                                heures=recup_heure().strftime('%H'),
                                minutes=recup_heure().strftime('%M'),
                                secondes=recup_heure().strftime('%S'))
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=('GET', 'POST'))
 def login():
     form = LoginForm()
     error = None

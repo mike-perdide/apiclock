@@ -11,55 +11,55 @@
     <ul>
         <ul>
             {% for member in radio %}
-            <form action="{{ url_for('welcome') }}" method=post>
-                <li> TYPE : {{ member.type }} // TITLE : {{ member.nom }}
+            <form action="{{ url_for('welcome') }}" method="post">
+                <li> TYPE : <input type=text name="typemedia" value="{{ member.type }}"> //
+                    TITLE : <input type=text name="nommedia" value="{{ member.nom }}">
                 <!--  on met l'id en champ cache pour recup pour suppression  -->
-                <input type="hidden" name="id_media_supprimer" value="{{ member.id }}">
+                <input type="hidden" name="idmedia" value="{{ member.id }}">
                 <input type=submit value="Jouer" name=jouer_radio>
+                <input type=submit value="Modifier" name=modifier_radio>
                 <input type=submit value="Supprimer" name=supprimer_radio >
-                
-                <br/></form>
-            
-            <form action="{{ url_for('welcome') }}" method=post>
-                Modifier TITLE : <input type=text name="modif_titre" value="{{ member.nom }}">
-                Modifier URLMEDIA : <input type=text name="modif_url" value="{{ member.url }}">
-                <input type="hidden" name="id_media_modif" value="{{ member.id }}">
-                <input type=submit value="ok" name="modifier_radio"> </li>
+                <br/></li>
+                <li> {{ test }} </li>
             </form>
             
             {% endfor %}
         </ul><br/>
-        <li> Ajouter radios </li>
-        <ul>
-            <form action="{{ url_for('welcome') }}" method=post>
-                <li> Nom de la radio : <input type=text name="titremedia" value="">
-                URL du stream (.mp3) : <input type=text name="urlmedia" value="">
-                <input type=submit value="Ajouter" name="ajouter_radio"></li>
-            </form>
-        </ul>
+        <li>
+            <form action="{{ url_for('welcome') }}" method="post">
+            <fieldset>
+                <legend>Ajouter</legend>
+                {% for field in form %}
+                <div class="form.group">
+                     {% if field.type == 'SubmitField' %}
+                        {{ field(class="btn btn-primary") }}
+
+                    {% else %}
+                        {% if radio is defined %}
+                            {% for member in radio %}
+                                {{ field.name }} {{ member.nom }}
+                            {% endfor %}
+                        {% else %}
+                            {{ field.label }} {{ field(class="form-control") }}
+                        {% endif %}
+
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </fieldset>
+        </form>
+
+        </li>
     </ul>
         <hr>
         <h3>Podcast</h3>
     <ul>    
         <li> Afficher les podcasts </li>
-        <li>
-            <ol>
-            {% for emissions in podcast %}
-                <li> ID : {{ emissions[0] }} // TYPE : {{ emissions[1] }} // TITLE : {{ emissions[2] }} // URLMEDIA : {{ emissions[3] }} <input type=submit value="Supprimer">
-                <br/>Modifier TITRE : <input type=text name="{{ emissions[2] }}" value="{{ emissions[2] }}">
-                Modifier URL : <input type=text name="{{ emissions[3] }}" value="{{ emissions[3] }}">
-                <input type=submit value="ok"> </li>
-            {% endfor %}       
-        </ol></li>
+
         <li> Ajouter podcast</li>
-        <ul>
-            <form action="{{ url_for('welcome') }}" method=post>
-                <li> Titre du podcast : <input type=text name="titre_podcast" value="">
-                RSS du podcast : <input type=text name="URL" value="">
-                <input type=submit value="Ajouter"></li>
-            </form>
-        </ul>
+
     </ul>
+
     <hr>
         <h3>Alarmes</h3>
     <ul>
@@ -80,5 +80,3 @@
     
 
 {% endblock %}
-
-

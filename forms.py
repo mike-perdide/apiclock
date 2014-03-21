@@ -10,6 +10,15 @@ class LoginForm(Form):
     submit = SubmitField(u'Entrer')
 
 
+class Mediaform(Form):
+    """Ajout media radio"""
+    nommedia = TextField(u'Nom Radio', [validators.length(min=4, max=40)])
+    urlmedia = TextField(u'Url Radio', [validators.length(min=4, max=100)])
+    submit = SubmitField(u'Ajouter')
+    submit = SubmitField(u'Modifier')
+    submit = SubmitField(u'Supprimer')
+
+
 class ContactForm(Form):
     """Définition pour formulaire contact"""
     email = TextField("Email", [validators.Email("Veuillez saisir un mail valide !"),
