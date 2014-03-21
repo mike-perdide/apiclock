@@ -169,9 +169,37 @@ class Reveil(Base):
         self.heurefin = heurefin
         self.volume = volume
 
-    def ajoutreveil(self):
-        """Ajout d'une programmation d'alarme"""
+    def ajoutreveil(self, nom, jours, heuredebut, heurefin, volume =80, idmedia):
+        """Ajout d'une programmation d'alarme avec une valeur defaut / optionnelle de volume = 80"""
+        # récupération de l'id USER
+        recupiduser = sessiont.query(User).filter_by(User.id=sessiont."récupération de l'id user depuis la session ?").first()
+        iduser = recupiduser.id
 
+        # insertion en base
+        newalarme = Reveil(nom=nom,
+                           jours=jours,
+                           heuredebut=heuredebut,
+                           heurefin=heurefin,
+                           volume=volume,
+                           idmedia=idmedia,
+                           iduser=iduser)
+        sessiont.add(newalarme)
+
+        # Mise en place du Cron
+
+        pass
+
+    def jouerreveil(self):
+        """jouer une alarme"""
+        pass
+
+    def suppressionreveil(self):
+        """supprimer une alarme"""
+        pass
+
+    def modifierreveil(self):
+        """ Modification alarme"""
+        pass
 
 
 class Media(Base):

@@ -77,7 +77,7 @@ def welcome():
 
             # JOUER
             elif request.form['jouer_radio']:
-                radiojouer = sessionj.query(Media).filter_by(id=idmedia).first()
+                radiojouer = sessiont.query(Media).filter_by(id=idmedia).first()
                 path = radiojouer.url
                 play_MPD(path)
 
