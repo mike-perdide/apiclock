@@ -74,19 +74,19 @@ def welcome():
         if request.method == 'POST':
 
             # SUPPRESSION
-            if request.form['supprimer_radio']:
+            if 'supprimer_radio' in request.form:
                 idsupprimer = request.form['id_media_supprimer']
                 sessiont.query(Media).filter_by(id=idsupprimer).delete()
                 sessiont.commit()
 
             # JOUER
-            elif request.form['jouer_radio']:
+            elif 'jouer_radio' in request.form:
                 radiojouer = sessiont.query(Media).filter_by(id=idmedia).first()
                 path = radiojouer.url
                 play_MPD(path)
 
             # MODIFICATION
-            elif request.form['modifier_radio']:
+            elif 'modifier_radio' in request.form:
                 idmodif = request.form['idmedia']
                 modift = request.form['nommedia']
                 typemodif = request.form['typemedia']
@@ -95,7 +95,7 @@ def welcome():
                 sessiont.commit()
 
             # AJOUTER RADIO
-            elif request.form['ajouter_radio']:
+            elif 'ajouter_radio' in request.form:
                 nom = request.form['nommedia']
                 urlmedia = request.form['urlmedia']
                 test = urlmedia
