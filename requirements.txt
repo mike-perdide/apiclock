@@ -1,0 +1,7 @@
+flask
+beautifulsoup4
+wtforms
+python-crontab
+flask_bootstrap
+python-mpd2
+sqlalchemy
