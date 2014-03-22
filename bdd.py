@@ -234,7 +234,7 @@ class User(Base):
 
     def __init__(self, nom, mail, password, role, langue, googlec, twitterc):
         self.nom = nom
-        mail.type = mail
+        self.mail = mail
         self.url = password
         self.role = role
         self.langue = langue
