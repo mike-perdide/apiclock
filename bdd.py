@@ -169,11 +169,15 @@ class Reveil(Base):
         self.heurefin = heurefin
         self.volume = volume
 
-    def ajoutreveil(self, nom, jours, heuredebut, heurefin, volume =80, idmedia):
-        """Ajout d'une programmation d'alarme avec une valeur defaut / optionnelle de volume = 80"""
+    def ajoutreveil(self, user, nom, jours, heuredebut, heurefin,
+                    idmedia, volume=80):
+        """
+            Ajout d'une programmation d'alarme avec une valeur defaut /
+            optionnelle de volume = 80
+        """
         # récupération de l'id USER
-        recupiduser = sessiont.query(User).filter_by(User.id=sessiont."récupération de l'id user depuis la session ?").first()
-        iduser = recupiduser.id
+        #recupiduser = sessiont.query(User).filter_by(User.id=sessiont."récupération de l'id user depuis la session ?").first()
+        iduser = user.id
 
         # insertion en base
         newalarme = Reveil(nom=nom,
