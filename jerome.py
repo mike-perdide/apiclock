@@ -100,21 +100,25 @@ def welcome():
                 sessiont.commit()
 
         else:
-            return render_template('welcome.html',
-                               form=form,
-                               test=test,
-                               radio=radio,
-                               heures=recup_heure().strftime('%H'),
-                               minutes=recup_heure().strftime('%M'),
-                               secondes=recup_heure().strftime('%S'))
+            return render_template(
+                'welcome.html',
+                form=form,
+                test=test,
+                radio=radio,
+                heures=recup_heure().strftime('%H'),
+                minutes=recup_heure().strftime('%M'),
+                secondes=recup_heure().strftime('%S'),
+            )
 
     else:
-        return render_template('welcome.html',
-                               form=form,
-                               radio=radio,
-                               heures=recup_heure().strftime('%H'),
-                               minutes=recup_heure().strftime('%M'),
-                               secondes=recup_heure().strftime('%S'))
+        return render_template(
+            'welcome.html',
+            form=form,
+            radio=radio,
+            heures=recup_heure().strftime('%H'),
+            minutes=recup_heure().strftime('%M'),
+            secondes=recup_heure().strftime('%S'),
+        )
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
