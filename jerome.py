@@ -91,7 +91,9 @@ def welcome():
                 modift = request.form['nommedia']
                 typemodif = request.form['typemedia']
                 test = idmodif
-                sessiont.query(Media).filter(Media.id == idmodif).update({'nom': modift}, {'type': typemodif})
+                sessiont.query(Media)\
+                        .filter(Media.id == idmodif)\
+                        .update({'nom': modift, 'type': typemodif})
                 sessiont.commit()
 
             # AJOUTER RADIO
