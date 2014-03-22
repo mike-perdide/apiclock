@@ -107,7 +107,6 @@ def welcome():
             return render_template(
                 'welcome.html',
                 form=form,
-                test=test,
                 radio=radio,
                 heures=recup_heure().strftime('%H'),
                 minutes=recup_heure().strftime('%M'),
