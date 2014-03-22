@@ -146,9 +146,9 @@ from sqlalchemy.orm import sessionmaker, relationship
 
 engine = create_engine('sqlite:///apiclock.sqlite')
 Base = declarative_base()
-Session = sessionmaker(bind=engine)
+session = sessionmaker(bind=engine)
 
-sessiont = Session()
+sessiont = session()
 
 class Reveil(Base):
     """données propres à l'object Reveil soit une alarme """
