@@ -65,8 +65,12 @@ def welcome():
     # on recupere la liste ds medai de type "radio"
     radio = sessiont.query(Media).filter(Media.type == 'radio').all()
 
-    if session.get('logged_in'):
+    if not session.get('logged_in'):
+        # Not logged in
+        return login()
 
+    else:
+        # Logged in
         if request.method == 'POST':
 
             # SUPPRESSION
@@ -110,15 +114,7 @@ def welcome():
                 secondes=recup_heure().strftime('%S'),
             )
 
-    else:
-        return render_template(
-            'welcome.html',
-            form=form,
-            radio=radio,
-            heures=recup_heure().strftime('%H'),
-            minutes=recup_heure().strftime('%M'),
-            secondes=recup_heure().strftime('%S'),
-        )
+
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
